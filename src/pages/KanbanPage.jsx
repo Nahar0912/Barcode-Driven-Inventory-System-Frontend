@@ -41,7 +41,7 @@ const KanbanPage = () => {
 
   const addNewCategory = async (name) => {
     try {
-      await axios.post('http://localhost:5000/', { name });
+      await axios.post('http://localhost:5000/api/categories', { name });
       fetchCategories();
     } catch (error) {
       console.error('Failed to add category:', error);
@@ -69,7 +69,7 @@ const KanbanPage = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Kanban Board</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center">Kanban Board</h2>
       <CategoryForm
         onAddCategory={addNewCategory}
         categories={categories}
