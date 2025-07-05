@@ -60,7 +60,7 @@ const KanbanBoard = ({ products, categories, onCategoryChange, onDeleteProduct }
 
               return (
                 <div key={category} className={`flex flex-col border-l border-gray-300 ${columnWidth}`}>
-                  <div className="text-center font-bold text-indigo-600 py-2 border-b border-gray-300 bg-gray-100 text-lg">
+                  <div className="text-center font-bold text-blue-800 py-2 border-b border-gray-300 bg-gray-100 text-lg">
                     {category} <span className="ml-1 text-gray-500">({filteredProducts.length})</span>
                   </div>
 

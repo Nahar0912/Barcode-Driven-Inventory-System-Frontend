@@ -1,7 +1,6 @@
 import BarcodeScanner from '../components/BarcodeScanner';
 
 const ScannerPage = () => {
-  // This function will be called when a scan is successful
   const handleScanSuccess = () => {
     console.log('Scan completed successfully!');
   };

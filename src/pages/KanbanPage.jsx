@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import KanbanBoard from '../components/KanbanBoard';
 import { useNavigate } from 'react-router-dom';
+import KanbanBoard from '../components/KanbanBoard';
+import { fetchProducts, updateProductCategory, deleteProduct,} from '../services/productService';
+import { fetchCategories } from '../services/categoryService';
 
 const KanbanPage = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
-  const fetchProducts = async () => {
+  const loadProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/products');
+      const res = await fetchProducts();
       setProducts(res.data);
     } catch (error) {
       console.error('Failed to fetch products:', error);
     }
   };
 
-  const fetchCategories = async () => {
+  const loadCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/categories');
+      const res = await fetchCategories();
       setCategories(['Uncategorized', ...res.data.map(cat => cat.name)]);
     } catch (error) {
       console.error('Failed to fetch categories:', error);
@@ -27,14 +28,14 @@ const KanbanPage = () => {
   };
 
   useEffect(() => {
-    fetchProducts();
-    fetchCategories();
+    loadProducts();
+    loadCategories();
   }, []);
 
   const handleCategoryChange = async (productId, newCategory) => {
     try {
-      await axios.put(`http://localhost:5000/api/products/${productId}`, { category: newCategory });
-      fetchProducts();
+      await updateProductCategory(productId, newCategory);
+      loadProducts();
     } catch (error) {
       console.error('Failed to update product category:', error);
     }
@@ -42,8 +43,8 @@ const KanbanPage = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/products/${productId}`);
-      fetchProducts();
+      await deleteProduct(productId);
+      loadProducts();
     } catch (error) {
       console.error('Failed to delete product:', error);
     }

@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import BarcodeScannerComponent from 'react-qr-barcode-scanner';
-import axios from 'axios';
+import { scanBarcode } from '../services/productService';
+import { toast } from 'react-toastify';
 
 const BarcodeScanner = ({ onScanSuccess }) => {
   const [scanning, setScanning] = useState(false);
   const [manualMode, setManualMode] = useState(false);
   const [manualBarcode, setManualBarcode] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Handle scanned barcode
   const handleScan = async (err, result) => {
     if (result) {
       const barcode = result.text;
@@ -16,81 +17,86 @@ const BarcodeScanner = ({ onScanSuccess }) => {
     }
   };
 
-  // Handle manual submit
   const handleManualSubmit = async (e) => {
     e.preventDefault();
-    if (manualBarcode.trim() === '') return alert('Please enter a barcode');
+    if (manualBarcode.trim() === '')
+      return toast.error('Please enter a barcode');
     await submitBarcode(manualBarcode);
     setManualBarcode('');
   };
 
-  // Send barcode to backend
-const submitBarcode = async (barcode) => {
+  const submitBarcode = async (barcode) => {
     try {
-      console.log('Submitting barcode:', barcode);
-      const res = await axios.post('http://localhost:5000/api/products/scan', { barcode });
+      setLoading(true);
+      const res = await scanBarcode(barcode);
 
-      // Check API message
-      if (res.data.message === 'Product saved successfully' || res.data.message === 'Product already exists') {
+      if (
+        res.data.message === 'Product saved successfully' || res.data.message === 'Product already exists'
+      ) {
         onScanSuccess();
-        alert(res.data.message);
+        toast.success(res.data.message);
       } else {
-        alert('Product not found!');
+        toast.error('Product not found!');
       }
     // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      alert('Error saving product!');
+      toast.error('Error saving product!');
+    } finally {
+      setLoading(false);
     }
   };
 
-
   return (
-    <div className="mb-6 text-center">
-      {/* Toggle Buttons */}
-      <div className="flex justify-center gap-4 mb-4">
+    <div className="mb-6 text-center max-w-xl mx-auto p-4">
+      <div className="flex justify-center gap-4 mb-6">
         <button
-          onClick={() => { setScanning(true); setManualMode(false); }}
-          className="btn btn-primary"
+          onClick={() => {
+            setScanning(true);
+            setManualMode(false);
+          }}
+          className={`btn ${scanning ? 'btn-primary' : 'btn-outline btn-primary'}`}
         >
           Camera Scan
         </button>
         <button
-          onClick={() => { setManualMode(true); setScanning(false); }}
-          className="btn btn-secondary"
+          onClick={() => {
+            setManualMode(true);
+            setScanning(false);
+          }}
+          className={`btn ${manualMode ? 'btn-secondary' : 'btn-outline btn-secondary'}`}
         >
           Manual Input
         </button>
       </div>
 
-      {/* Camera Scanner */}
       {scanning && (
-        <div className="flex justify-center mt-4">
-          <BarcodeScannerComponent
-            width={400}
-            height={300}
-            onUpdate={handleScan}
-          />
-          <button
-            onClick={() => setScanning(false)}
-            className="btn btn-error mt-4 ml-4"
-          >
+        <div className="flex flex-col items-center space-y-4">
+          <BarcodeScannerComponent width={400} height={300} onUpdate={handleScan} />
+          <button onClick={() => setScanning(false)} className="btn btn-error">
             Stop Scanning
           </button>
         </div>
       )}
 
-      {/* Manual Input */}
       {manualMode && (
-        <form onSubmit={handleManualSubmit} className="flex flex-col items-center">
+        <form onSubmit={handleManualSubmit} className="flex flex-col items-center space-y-4">
           <input
             type="text"
             placeholder="Enter Barcode"
             value={manualBarcode}
             onChange={(e) => setManualBarcode(e.target.value)}
-            className="input input-bordered mb-4 w-64"
+            className="input input-bordered w-64"
           />
-          <button type="submit" className="btn btn-success">Submit</button>
+          <button type="submit" className={`btn btn-success ${loading ? 'loading' : ''}`}>
+            {loading ? 'Submitting...' : 'Submit'}
+          </button>
         </form>
+      )}
+
+      {!scanning && !manualMode && (
+        <div className="text-gray-500 mt-6">
+          <p>Select a mode to start scanning or enter a barcode manually.</p>
+        </div>
       )}
     </div>
   );

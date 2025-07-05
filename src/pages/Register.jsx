@@ -27,8 +27,6 @@ const RegisterPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-blue-100 p-4 relative">
-
-      {/* Home Button on Top-Right */}
       <Link
         to="/"
         className="absolute top-4 right-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-full font-semibold hover:scale-105 transform transition-all duration-300 shadow-lg"
@@ -36,7 +34,6 @@ const RegisterPage = () => {
         Home
       </Link>
 
-      {/* Register Box */}
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
         <h2 className="text-3xl font-bold text-center mb-6 text-emerald-400">Create an Account</h2>
 

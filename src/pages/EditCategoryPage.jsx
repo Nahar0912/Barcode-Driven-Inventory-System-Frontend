@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchCategories, addCategory, deleteCategory,} from '../services/categoryService';
 
 const EditCategoryPage = () => {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState('');
 
-  const fetchCategories = async () => {
+  const loadCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/categories');
+      const res = await fetchCategories();
       setCategories(res.data.map(cat => cat.name));
     } catch (error) {
       console.error('Failed to fetch categories:', error);
@@ -15,7 +15,7 @@ const EditCategoryPage = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
+    loadCategories();
   }, []);
 
   const handleAddCategory = async (e) => {
@@ -23,9 +23,9 @@ const EditCategoryPage = () => {
     if (!name.trim()) return;
 
     try {
-      await axios.post('http://localhost:5000/api/categories', { name: name.trim() });
+      await addCategory(name.trim());
       setName('');
-      fetchCategories();
+      loadCategories();
     } catch (error) {
       console.error('Failed to add category:', error);
     }
@@ -33,8 +33,8 @@ const EditCategoryPage = () => {
 
   const handleDeleteCategory = async (categoryName) => {
     try {
-      await axios.delete(`http://localhost:5000/api/categories/${categoryName}`);
-      fetchCategories();
+      await deleteCategory(categoryName);
+      loadCategories();
     } catch (error) {
       console.error('Failed to delete category:', error);
     }
@@ -48,7 +48,7 @@ const EditCategoryPage = () => {
         <input
           type="text"
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           placeholder="Add new category"
           className="input input-bordered flex-grow"
         />
@@ -56,14 +56,24 @@ const EditCategoryPage = () => {
       </form>
 
       <div className="max-w-md mx-auto">
-        {categories && categories.map(category => (
-          category !== 'Uncategorized' && (
-            <div key={category} className="flex items-center justify-between mb-2 p-2 bg-gray-100 rounded">
-              <span className="text-base">{category}</span>
-              <button className="btn btn-error btn-xs" onClick={() => handleDeleteCategory(category)}>Delete</button>
-            </div>
-          )
-        ))}
+        {categories &&
+          categories.map(
+            (category) =>
+              category !== 'Uncategorized' && (
+                <div
+                  key={category}
+                  className="flex items-center justify-between mb-2 p-2 bg-gray-100 rounded"
+                >
+                  <span className="text-base">{category}</span>
+                  <button
+                    className="btn btn-error btn-xs"
+                    onClick={() => handleDeleteCategory(category)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )
+          )}
       </div>
     </div>
   );
