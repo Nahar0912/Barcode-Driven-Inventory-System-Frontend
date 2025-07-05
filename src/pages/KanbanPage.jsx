@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import KanbanBoard from '../components/KanbanBoard';
-import CategoryForm from '../components/CategoryForm';
+import { useNavigate } from 'react-router-dom';
 
 const KanbanPage = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
@@ -39,15 +40,6 @@ const KanbanPage = () => {
     }
   };
 
-  const addNewCategory = async (name) => {
-    try {
-      await axios.post('http://localhost:5000/api/categories', { name });
-      fetchCategories();
-    } catch (error) {
-      console.error('Failed to add category:', error);
-    }
-  };
-
   const handleDeleteProduct = async (productId) => {
     try {
       await axios.delete(`http://localhost:5000/api/products/${productId}`);
@@ -57,24 +49,18 @@ const KanbanPage = () => {
     }
   };
 
-  const handleDeleteCategory = async (categoryName) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/categories/${categoryName}`);
-      fetchCategories();
-      fetchProducts();
-    } catch (error) {
-      console.error('Failed to delete category:', error);
-    }
-  };
-
   return (
-    <div>
-      <h2 className="text-3xl font-bold mb-6 text-center">Kanban Board</h2>
-      <CategoryForm
-        onAddCategory={addNewCategory}
-        categories={categories}
-        onDeleteCategory={handleDeleteCategory}
-      />
+    <div className="container mx-auto p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold text-center">Kanban Board</h2>
+        <button
+          onClick={() => navigate('/edit-categories')}
+          className="btn btn-outline btn-primary"
+        >
+          Manage Categories
+        </button>
+      </div>
+
       <KanbanBoard
         products={products}
         categories={categories}

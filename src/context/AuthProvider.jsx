@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        await api.get("/auth/check", { withCredentials: true });
+        await api.get("/api/auth/check", { withCredentials: true });
         setIsLoggedIn(true);
       } catch (error) {
         console.error(error);
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (formData) => {
     try {
-      await api.post("/auth/login", formData, { withCredentials: true });
+      await api.post("/api/auth/login", formData, { withCredentials: true });
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (formData) => {
     try {
-      await api.post("/auth/register", formData, { withCredentials: true });
+      await api.post("/api/auth/register", formData, { withCredentials: true });
     } catch (error) {
       console.error(error);
       throw new Error("Registration failed.");
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await api.post("/auth/logout", {}, { withCredentials: true });
+    await api.post("/api/auth/logout", {}, { withCredentials: true });
     setIsLoggedIn(false);
   };
 

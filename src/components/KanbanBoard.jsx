@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import KanbanCard from './KanbanCard';
 
 const KanbanBoard = ({ products, categories, onCategoryChange, onDeleteProduct }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState({});
-  const productsPerPage = 5;
+  const productsPerPage = 7;
 
   const getFilteredProductsByCategory = (category) => {
     return products.filter(product =>
@@ -35,13 +36,12 @@ const KanbanBoard = ({ products, categories, onCategoryChange, onDeleteProduct }
   };
 
   return (
-    <div className="p-4">
-      {/* Search Bar */}
-      <div className="mb-6 flex justify-center">
+    <div className="p-2">
+      <div className="mb-4 flex justify-center">
         <input
           type="text"
           placeholder="Search by product name or category"
-          className="input input-bordered w-80"
+          className="input input-bordered w-64 text-sm"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -49,85 +49,68 @@ const KanbanBoard = ({ products, categories, onCategoryChange, onDeleteProduct }
 
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="overflow-x-auto">
-          <div
-            className="grid"
-            style={{ gridTemplateColumns: `repeat(${categories.length}, minmax(250px, 1fr))` }}
-          >
-            {/* Table Headers */}
-            {categories.map(category => (
-              <div
-                key={category}
-                className="text-center font-bold text-lg p-4 border border-gray-300 bg-gray-100"
-              >
-                {category}
-              </div>
-            ))}
+          <div className="flex min-w-fit border border-gray-300">
 
-            {/* Table Body */}
             {categories.map(category => {
               const filteredProducts = getFilteredProductsByCategory(category);
               const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
               const page = currentPage[category] || 1;
 
+              const columnWidth = categories.length > 4 ? 'w-64' : 'flex-1';
+
               return (
-                <Droppable droppableId={category} key={category}>
-                  {(provided) => (
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className="min-h-[400px] p-2 border border-gray-300"
-                    >
-                      {getCurrentPageProducts(category).map((product, index) => (
-                        <Draggable key={product._id} draggableId={product._id} index={index}>
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="bg-white p-3 rounded shadow mb-3 cursor-move"
-                            >
-                              <h4 className="font-medium">{product.description}</h4>
-                              <p className="text-sm text-gray-600">Material: {product.material}</p>
-                              <p className="text-xs text-gray-400">Barcode: {product.barcode}</p>
+                <div key={category} className={`flex flex-col border-l border-gray-300 ${columnWidth}`}>
+                  <div className="text-center font-bold text-indigo-600 py-2 border-b border-gray-300 bg-gray-100 text-lg">
+                    {category} <span className="ml-1 text-gray-500">({filteredProducts.length})</span>
+                  </div>
+
+                  <Droppable droppableId={category}>
+                    {(provided) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        className="min-h-[300px] flex flex-col"
+                      >
+                        {getCurrentPageProducts(category).map((product, index) => (
+                          <Draggable key={product._id} draggableId={product._id} index={index}>
+                            {(provided) => (
+                              <KanbanCard
+                                product={product}
+                                provided={provided}
+                                onDeleteProduct={onDeleteProduct}
+                              />
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+
+                        {totalPages > 1 && (
+                          <div className="flex justify-center mt-2 gap-1 flex-wrap p-2 border-t border-gray-300">
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
                               <button
-                                className="btn btn-error btn-xs mt-2"
-                                onClick={() => onDeleteProduct(product._id)}
+                                key={pageNumber}
+                                className={`btn btn-xs ${pageNumber === page ? 'btn-primary' : 'btn-ghost'}`}
+                                onClick={() => handlePageChange(category, pageNumber)}
                               >
-                                Delete
+                                {pageNumber}
                               </button>
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-
-                      {/* Numbered Pagination */}
-                      {totalPages > 1 && (
-                        <div className="flex justify-center mt-4 gap-2 flex-wrap">
-                          {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
+                            ))}
                             <button
-                              key={pageNumber}
-                              className={`btn btn-sm ${pageNumber === page ? 'btn-primary' : 'btn-ghost'}`}
-                              onClick={() => handlePageChange(category, pageNumber)}
+                              className="btn btn-xs"
+                              disabled={page === totalPages}
+                              onClick={() => handlePageChange(category, page + 1)}
                             >
-                              {pageNumber}
+                              Next
                             </button>
-                          ))}
-
-                          <button
-                            className="btn btn-sm"
-                            disabled={page === totalPages}
-                            onClick={() => handlePageChange(category, page + 1)}
-                          >
-                            Next
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </Droppable>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
               );
             })}
+
           </div>
         </div>
       </DragDropContext>
