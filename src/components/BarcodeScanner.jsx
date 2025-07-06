@@ -72,7 +72,7 @@ const BarcodeScanner = ({ onScanSuccess }) => {
       {scanning && (
         <div className="flex flex-col items-center space-y-4">
           <BarcodeScannerComponent width={400} height={300} onUpdate={handleScan} />
-          <button onClick={() => setScanning(false)} className="btn btn-error">
+          <button onClick={() => setScanning(false)} className="btn btn-error text-white">
             Stop Scanning
           </button>
         </div>
@@ -87,7 +87,7 @@ const BarcodeScanner = ({ onScanSuccess }) => {
             onChange={(e) => setManualBarcode(e.target.value)}
             className="input input-bordered w-64"
           />
-          <button type="submit" className={`btn btn-success ${loading ? 'loading' : ''}`}>
+          <button type="submit" className={`btn btn-success text-white ${loading ? 'loading' : ''}`}>
             {loading ? 'Submitting...' : 'Submit'}
           </button>
         </form>

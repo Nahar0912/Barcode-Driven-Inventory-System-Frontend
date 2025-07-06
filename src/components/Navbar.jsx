@@ -71,7 +71,7 @@ const Navbar = () => {
         {isLoggedIn ? (
           <button
             onClick={handleLogout}
-            className="btn bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-600 transition-all duration-200"
+            className="btn bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition-all duration-200"
           >
             Logout
           </button>

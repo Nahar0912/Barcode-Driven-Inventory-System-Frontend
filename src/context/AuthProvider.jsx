@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
         await api.get("/api/auth/check", { withCredentials: true });
         setIsLoggedIn(true);
       } catch (error) {
-        console.error(error);
+        console.error("Auth check failed:", error);
         setIsLoggedIn(false);
       } finally {
         setIsCheckingAuth(false);
@@ -22,32 +22,42 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
   }, []);
 
+  // Login 
   const login = async (formData) => {
     try {
       await api.post("/api/auth/login", formData, { withCredentials: true });
       setIsLoggedIn(true);
     } catch (error) {
-      console.error(error);
+      console.error("Login failed:", error);
       throw new Error("Invalid email or password.");
     }
   };
 
+  // Register 
   const register = async (formData) => {
     try {
       await api.post("/api/auth/register", formData, { withCredentials: true });
+      setIsLoggedIn(true);
     } catch (error) {
-      console.error(error);
+      console.error("Registration failed:", error);
       throw new Error("Registration failed.");
     }
   };
 
+  // Logout 
   const logout = async () => {
-    await api.post("/api/auth/logout", {}, { withCredentials: true });
-    setIsLoggedIn(false);
+    try {
+      await api.post("/api/auth/logout", {}, { withCredentials: true });
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, isCheckingAuth, login, register, logout }}
+    >
       {!isCheckingAuth && children}
     </AuthContext.Provider>
   );
