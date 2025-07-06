@@ -1,12 +1,36 @@
-# React + Vite
+# 📱 Barcode-Driven Inventory System - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Live Site
+👉 [https://bdis.netlify.app](https://bdis.netlify.app)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📄 Overview
+This is the **frontend** of the Barcode-Driven Inventory System built with **React, Vite, Tailwind CSS, and DaisyUI**.
 
-## Expanding the ESLint configuration
+Features:
+- 📷 Barcode scanning
+- 🗂️ Kanban board with drag and drop
+- 🔐 User authentication (login, register, logout)
+- 🛠️ Category management
+- 📊 Product analytics
+- 🔒 Protected routes
+- 📱 Fully mobile responsive
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+- React + Vite
+- React Router DOM
+- Axios
+- Tailwind CSS + DaisyUI
+- react-beautiful-dnd (Drag and Drop)
+
+---
+
+## 🚀 Local Setup Instructions
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/barcode-inventory-system-frontend.git
+cd barcode-inventory-system-frontend
