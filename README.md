@@ -32,5 +32,5 @@ Features:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/barcode-inventory-system-frontend.git
+git clone https://github.com/Nahar0912/Barcode-Driven-Inventory-System-Frontend.git
 cd barcode-inventory-system-frontend
