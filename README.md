@@ -28,6 +28,12 @@ Features:
 
 ---
 
+## 🔐 Demo Login Credentials
+- **Email:** `admin@gmail.com`
+- **Password:** `Admin123`
+
+---
+
 ## 🚀 Local Setup Instructions
 
 ### 1. Clone the Repository
