@@ -1,7 +1,7 @@
 # 📱 Barcode-Driven Inventory System - Frontend
 
 ### Live Site
-👉 [https://github.com/Nahar0912/Barcode-Driven-Inventory-System-Frontend/raw/refs/heads/main/src/Barcode-Frontend-Inventory-Driven-System-1.2-beta.3.zip](https://github.com/Nahar0912/Barcode-Driven-Inventory-System-Frontend/raw/refs/heads/main/src/Barcode-Frontend-Inventory-Driven-System-1.2-beta.3.zip)
+👉 [https://bdis.netlify.app/](https://bdis.netlify.app/)
 
 ---
 
