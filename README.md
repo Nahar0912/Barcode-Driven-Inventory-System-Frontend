@@ -28,7 +28,7 @@ Features:
 ---
 
 ## 🔐 Demo Login Credentials
-- **Email:** `admin@gmail.com`
+- **Email:** `admin123@gmail.com`
 - **Password:** `Admin123`
 
 ---
